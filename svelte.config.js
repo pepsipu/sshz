@@ -1,21 +1,22 @@
-import adapter from "@sveltejs/adapter-cloudflare";
+import adapter from "@sveltejs/adapter-static";
 import preprocess from "svelte-preprocess";
 
-export default {
+/** @type {import('@sveltejs/kit').Config} */
+const config = {
+  // Consult https://github.com/sveltejs/svelte-preprocess
+  // for more information about preprocessors
   preprocess: [
     preprocess({
       postcss: true,
     }),
   ],
+
   kit: {
     adapter: adapter({
-      routes: {
-        include: ["/meowmoew"],
-        exclude: ["<all>"],
-      },
-      platformProxy: {
-        persist: "./your-custom-path",
-      },
+      fallback: "spa.html", // SPA mode
+      precompress: true,
     }),
   },
 };
+
+export default config;
